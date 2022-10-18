@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Big Brain Time</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="centerBox">
+        <div class="img_cont">
+          <img src="assets/bb.jpg" alt="" />
+        </div>
+        <div class="inputCont">
+          <div class="tits">
+            <h3>Enter Your Big Brain Friend's Name</h3>
+            <audio src="assets/BigBrain.mp3" id="myAudio"></audio>
+          </div>
+          <div class="optBox">
+            <input type="text" maxlength="1" placeholder="-" />
+            <input type="text" maxlength="1" placeholder="-" />
+            <input type="text" maxlength="1" placeholder="-" />
+            <input type="text" maxlength="1" placeholder="-" />
+            <input type="text" maxlength="1" placeholder="-" />
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // OTP input function
+
+      const otpInput = document.querySelectorAll(".optBox input");
+
+      otpInput.forEach((input, index) => {
+        input.dataset.index = index;
+        input.addEventListener("paste", handleOtpPaste);
+        input.addEventListener("keyup", handleOtp);
+      });
+
+      function handleOtpPaste(e) {
+        const data = e.clipboardData.getData("text");
+        const value = data.split("");
+        if (value.length === otpInput.length) {
+          otpInput.forEach((input, index) => {
+            input.value = value[index];
+          });
+          submit();
+        }
+      }
+
+      function handleOtp(e) {
+        const input = e.target;
+        let value = input.value;
+        input.value = "";
+        input.value = value ? value[0] : "";
+
+        let fieldIndex = input.dataset.index;
+        if (value.length > 0 && fieldIndex < otpInput.length - 1) {
+          input.nextElementSibling.focus();
+        }
+
+        if (e.key === "Backspace" && fieldIndex > 0) {
+          input.previousElementSibling.focus();
+        }
+
+        if (fieldIndex == otpInput.length - 1) {
+          submit();
+        }
+      }
+
+      function submit() {
+        // playMyAudio();
+        console.log("Submitting....!");
+        let otp = "";
+        otpInput.forEach((input) => {
+          otp += input.value;
+          // input.disabled = true;
+          // input.classList.add("disabled");
+        });
+        console.log(otp);
+
+        if (otp != "sagar") {
+          alert("Hint: sagar");
+          location.reload();
+        } else {
+          playMyAudio();
+          otpInput.forEach((input) => {
+            input.disabled = true;
+            input.classList.add("disabled");
+          });
+        }
+      }
+
+      //   Audio
+      function playMyAudio() {
+        document.getElementById("myAudio").play();
+      }
+    </script>
+  </body>
+</html>
