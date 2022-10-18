@@ -27,12 +27,16 @@
           </div>
         </div>
       </div>
+      <canvas id="my-canvas"></canvas>
     </main>
+
+    <script src="js/index.min.js"></script>
 
     <script>
       // OTP input function
 
       const otpInput = document.querySelectorAll(".optBox input");
+      let confe = document.querySelector("#my-canvas");
 
       otpInput.forEach((input, index) => {
         input.dataset.index = index;
@@ -86,6 +90,7 @@
           alert("Hint: SAGAR");
           location.reload();
         } else {
+          confe.classList.add("active");
           playMyAudio();
           otpInput.forEach((input) => {
             input.disabled = true;
@@ -93,6 +98,12 @@
           });
         }
       }
+
+
+      // Confetti
+      var confettiSettings = { target: "my-canvas" };
+      var confetti = new ConfettiGenerator(confettiSettings);
+      confetti.render();
 
       //   Audio
       function playMyAudio() {
